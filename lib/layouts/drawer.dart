@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import '../talk.dart';
-import '../guide.dart';
-import '../about.dart';
+import '../menu/talk.dart';
+import '../menu/guide.dart';
+import '../menu/about.dart';
+import '../main.dart';
 
 class CustomDrawer extends StatelessWidget {
+  final Function(Widget) onSelectPage;
+  CustomDrawer({required this.onSelectPage});
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -16,16 +19,16 @@ class CustomDrawer extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 children: [
                   SizedBox(
-                    height: 97.0, // Ubah ukuran tinggi sesuai keinginan Anda
+                    height: 97.0,
                     child: DrawerHeader(
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(5, 10, 48, 1), // Warna latar belakang DrawerHeader
+                        color: Color.fromRGBO(5, 10, 48, 1),
                       ),
                       child: Text(
                         'TRANS-SIBI MENU',
                         style: TextStyle(
-                          color: Color.fromRGBO(255, 204, 0, 1), // Warna teks DrawerHeader
-                          fontWeight: FontWeight.bold, // Tebal font teks DrawerHeader
+                          color: Color.fromRGBO(255, 204, 0, 1), 
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -35,14 +38,12 @@ class CustomDrawer extends StatelessWidget {
                     title: const Text(
                       'Berbicara',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1), // Warna teks
+                        color: Color.fromRGBO(255,255,255,1), 
                       ),
                     ),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
+                      onSelectPage(TalkPage());
+                      Navigator.of(context).pop(); 
                     },
                   ),
                   ListTile(
@@ -50,14 +51,12 @@ class CustomDrawer extends StatelessWidget {
                     title: const Text(
                       'Panduan Pengguna',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1), // Warna teks
+                        color: Color.fromRGBO(255,255,255,1),
                       ),
                     ),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => GuidePage()),
-                      );
+                      onSelectPage(GuidePage());
+                      Navigator.of(context).pop(); 
                     },
                   ),
                   ListTile(
@@ -65,14 +64,12 @@ class CustomDrawer extends StatelessWidget {
                     title: const Text(
                       'Tentang Aplikasi',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1), // Warna teks
+                        color: Color.fromRGBO(255,255,255,1),
                       ),
                     ),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AboutPage()),
-                      );
+                      onSelectPage(AboutPage());
+                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -86,12 +83,22 @@ class CustomDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 5),
-                    Text(
-                      '2024 - TRANS-SIBI',
-                      style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1), // Warna teks
-                        fontWeight: FontWeight.bold, // Tebal font
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.copyright,
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          size: 18,
+                        ),
+                        SizedBox(width: 5), // Jarak antara ikon dan teks
+                        Text(
+                          '2024 - TRANS-SIBI',
+                          style: TextStyle(
+                            color: Color.fromRGBO(255, 255, 255, 1), 
+                            // fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

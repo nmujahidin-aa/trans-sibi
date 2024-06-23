@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'components/drawer.dart';
-import 'talk.dart';
-import 'guide.dart';
-import 'about.dart';
+import 'layouts/drawer.dart';
+import 'layouts/appbar.dart';
+import 'menu/talk.dart';
+import 'menu/about.dart';
+import 'menu/guide.dart';
 
 
 void main() {
@@ -17,55 +18,30 @@ class Main extends StatelessWidget {
     );
   }
 }
-class HomePage extends StatelessWidget {
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Widget _selectedPage = TalkPage();
+
+  void _onSelectPage(Widget page) {
+    setState(() {
+      _selectedPage = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(
-            color: Color.fromRGBO(255, 204, 0, 1), // Mengatur warna ikon hamburger menjadi kuning
-          ),
-          title: Text(
-            'TRANS-SIBI',
-              style: TextStyle(
-                fontSize: 20, // Ukuran font
-                fontWeight: FontWeight.bold, // Tebal font
-                color: Color.fromRGBO(255, 204, 0, 1),
-              ),
-            ),
-          backgroundColor: Color.fromRGBO(5, 10, 48, 1),
-          actions: [
-          IconButton(
-            icon: Stack(
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 18,
-                  child: Icon(
-                    Icons.bluetooth,
-                    color: Color.fromRGBO(5, 10, 48, 1),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.red,
-                    radius: 5,
-                  ),
-                ),
-              ],
-            ),
-            onPressed: () {
-              // Tindakan ketika tombol Bluetooth ditekan
-              print("Bluetooth button pressed");
-            },
-          ),
-        ],
-        ),
-        drawer: CustomDrawer(),
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
+        child: CustomAppbar(),
       ),
+      drawer: CustomDrawer(onSelectPage: _onSelectPage),
+      body: _selectedPage,
     );
   }
 }
