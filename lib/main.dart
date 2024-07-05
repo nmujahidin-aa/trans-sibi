@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'menu/bluetooth.dart';
 import 'layouts/appbar.dart';
@@ -6,7 +7,9 @@ import 'menu/talk.dart';
 import 'menu/guide.dart';
 import 'menu/about.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -18,7 +21,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: BasePage(
         isConnectedNotifier: isConnectedNotifier,
-        child: TalkPage(isConnectedNotifier: isConnectedNotifier, connectedDeviceName: ValueNotifier<String?>(null)),
+        child: TalkPage(
+          isConnectedNotifier: isConnectedNotifier,
+          connectedDeviceName: ValueNotifier<String?>(null),
+        ),
       ),
     );
   }
@@ -51,7 +57,8 @@ class BasePage extends StatelessWidget {
               child: page,
             )),
           );
-        }, isConnectedNotifier: isConnectedNotifier,
+        },
+        isConnectedNotifier: isConnectedNotifier,
       ),
       body: child,
     );
