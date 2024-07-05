@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import '../menu/talk.dart';
 import '../menu/guide.dart';
 import '../menu/about.dart';
-import '../main.dart';
 
 class CustomDrawer extends StatelessWidget {
   final Function(Widget) onSelectPage;
-  CustomDrawer({required this.onSelectPage});
+  
+  CustomDrawer({required this.onSelectPage, required ValueNotifier<bool> isConnectedNotifier});
+  
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: Color.fromRGBO(5,10,48,1),
+        color: Color.fromRGBO(5, 10, 48, 1),
         child: Column(
           children: [
             Expanded(
@@ -34,42 +35,39 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.campaign, color: Color.fromRGBO(255,255,255,1)),
+                    leading: Icon(Icons.campaign, color: Color.fromRGBO(255, 255, 255, 1)),
                     title: const Text(
                       'Berbicara',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1), 
+                        color: Color.fromRGBO(255, 255, 255, 1), 
                       ),
                     ),
                     onTap: () {
-                      onSelectPage(TalkPage());
-                      Navigator.of(context).pop(); 
+                      onSelectPage(TalkPage(isConnectedNotifier: ValueNotifier<bool>(false), connectedDeviceName: ValueNotifier<String?>(null)));
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.assistant, color: Color.fromRGBO(255,255,255,1)),
+                    leading: Icon(Icons.assistant, color: Color.fromRGBO(255, 255, 255, 1)),
                     title: const Text(
                       'Panduan Pengguna',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1),
+                        color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
                     onTap: () {
                       onSelectPage(GuidePage());
-                      Navigator.of(context).pop(); 
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.info, color: Color.fromRGBO(255,255,255,1)),
+                    leading: Icon(Icons.info, color: Color.fromRGBO(255, 255, 255, 1)),
                     title: const Text(
                       'Tentang Aplikasi',
                       style: TextStyle(
-                        color: Color.fromRGBO(255,255,255,1),
+                        color: Color.fromRGBO(255, 255, 255, 1),
                       ),
                     ),
                     onTap: () {
                       onSelectPage(AboutPage());
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
@@ -95,7 +93,6 @@ class CustomDrawer extends StatelessWidget {
                           '2024 - TRANS-SIBI',
                           style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1), 
-                            // fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],

@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import '../menu/bluetooth.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
+  final ValueNotifier<bool> isConnectedNotifier;
+  final Function(Widget) onSelectPage;
+  CustomAppbar({required this.isConnectedNotifier, required this.onSelectPage});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(
+        color: Color.fromRGBO(255, 204, 0, 1),
+      ),
+      title: Text(
+        'TRANS-SIBI',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
           color: Color.fromRGBO(255, 204, 0, 1),
         ),
-        title: Text(
-          'TRANS-SIBI',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(255, 204, 0, 1),
-            ),
-          ),
-        backgroundColor: Color.fromRGBO(5, 10, 48, 1),
-        actions: [
+      ),
+      backgroundColor: Color.fromRGBO(5, 10, 48, 1),
+      actions: [
         IconButton(
           icon: Stack(
             children: [
@@ -31,39 +36,26 @@ class CustomAppbar extends StatelessWidget {
               Positioned(
                 right: 0,
                 bottom: 0,
-                child: CircleAvatar(
-                  backgroundColor: Colors.red,
-                  radius: 5,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: isConnectedNotifier,
+                  builder: (context, isConnected, child) {
+                    return CircleAvatar(
+                      backgroundColor: isConnected ? Colors.green : Colors.red,
+                      radius: 5,
+                    );
+                  },
                 ),
               ),
             ],
           ),
           onPressed: () {
-            _showBluetoothAlert(context);
+            onSelectPage(BluetoothPage(isConnectedNotifier: isConnectedNotifier));
           },
         ),
       ],
     );
   }
 
-  void _showBluetoothAlert(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Bluetooth"),
-          content: Text("Bluetooth is not connected."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("OK"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-}  
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}

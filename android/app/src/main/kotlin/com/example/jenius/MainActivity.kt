@@ -1,4 +1,4 @@
-package com.example.jenius
+package com.example.transsibi
 
 import io.flutter.embedding.android.FlutterActivity
 

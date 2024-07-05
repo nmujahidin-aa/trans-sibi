@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "997954776007",
+    "firebase_url": "https://trans-sibi-default-rtdb.firebaseio.com",
+    "project_id": "trans-sibi",
+    "storage_bucket": "trans-sibi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997954776007:android:af51d7ac92c65c4cf087e2",
+        "android_client_info": {
+          "package_name": "com.example.transsibi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_R64AGRV8ZzH-8xcJsui0AgU7sBS18GY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,47 +1,59 @@
 import 'package:flutter/material.dart';
-import 'layouts/drawer.dart';
+import 'menu/bluetooth.dart';
 import 'layouts/appbar.dart';
+import 'layouts/drawer.dart';
 import 'menu/talk.dart';
-import 'menu/about.dart';
 import 'menu/guide.dart';
-
+import 'menu/about.dart';
 
 void main() {
-  runApp(Main());
+  runApp(MyApp());
 }
 
-class Main extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  final ValueNotifier<bool> isConnectedNotifier = ValueNotifier<bool>(false);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
+      home: BasePage(
+        isConnectedNotifier: isConnectedNotifier,
+        child: TalkPage(isConnectedNotifier: isConnectedNotifier, connectedDeviceName: ValueNotifier<String?>(null)),
+      ),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class BasePage extends StatelessWidget {
+  final ValueNotifier<bool> isConnectedNotifier;
+  final Widget child;
 
-class _HomePageState extends State<HomePage> {
-  Widget _selectedPage = TalkPage();
-
-  void _onSelectPage(Widget page) {
-    setState(() {
-      _selectedPage = page;
-    });
-  }
+  BasePage({required this.isConnectedNotifier, required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: CustomAppbar(),
+      appBar: CustomAppbar(
+        isConnectedNotifier: isConnectedNotifier,
+        onSelectPage: (page) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => page),
+          );
+        },
       ),
-      drawer: CustomDrawer(onSelectPage: _onSelectPage),
-      body: _selectedPage,
+      drawer: CustomDrawer(
+        onSelectPage: (page) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => BasePage(
+              isConnectedNotifier: isConnectedNotifier,
+              child: page,
+            )),
+          );
+        }, isConnectedNotifier: isConnectedNotifier,
+      ),
+      body: child,
     );
   }
 }
